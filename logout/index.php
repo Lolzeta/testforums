@@ -2,9 +2,9 @@
 
 require_once '../setup.php';
 
+// Esto debe ir antes del session_destroy()
 session_unset();
 
 session_destroy();
 
-header("Location: ".APP_URL);
-?>
+header("Location: ".BASE_URL);

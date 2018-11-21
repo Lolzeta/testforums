@@ -1,2 +1,0 @@
-# testforums
-A PHP project

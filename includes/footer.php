@@ -1,8 +1,9 @@
-<footer id="footer" class="pb-4 pt-4">
+
+    <footer id="footer" class="pb-4 pt-4">
         <div class="container">
             <div class="row text-center">
                 <div class="col-12 col-lg">
-                    Javier Martinez &copy; 2018
+                    TestForums &copy; 2018
                 </div>
             </div>
         </div>

@@ -1,49 +1,65 @@
 <?php
     require_once '../setup.php';
     require_once '../database/conexion.php';
+    require_once '../database/helpers.php';
 
-if(isset($_SESSION['userdata'])){
-    header("Location: ".APP_URL);
-}
+    if ( !empty($_SESSION) ){
+        header("Location: ".BASE_URL);
+        die();
+    }
+    
+    if( isset($_POST['login']) ){
+        $username = trim($_POST['username']) ?? null;
+        $password = trim($_POST['password']) ?? null;
 
-if( isset($_POST['login'])){
-    // Formulario ha sido enviado
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
+        // Validaciones
+        // username:
+        if ( empty($username) ){
+            $errors['username']['empty'] = "Debes introducir un nombre de usuario.<br>";
+            $username = null;
+        }
 
-    // Validaciones
+        // password:
+        if ( empty($password) ){
+            $errors['password']['empty'] = "Debes facilitar una contraseña.<br>";
+        }
+    
+        if ( strlen($password) < 6 ) {
+            $errors['password']['length'] = "La contraseña debe tener al menos 6 caracteres.<br>";
+        }
 
-    if(empty($username)){
-        $errors['username']['empty'] = "El usuario no puede ser un valor vacio.";
-        $username = null;
+        if( empty($errors) ){
+            // Consulta para comprobar las credenciales del usuario
+            $sql = "SELECT * FROM users WHERE username='$username' LIMIT 1";
+            
+            $login = mysqli_query($db, $sql);
+
+            $guardar = mysqli_query($db, $sql);
+
+            if( $login && mysqli_num_rows($login)==1 ){
+                $usuario = mysqli_fetch_assoc($login);
+        
+                // Comprobar la contraseña
+                if( password_verify($password, $usuario['password']) ) {
+                    // Guardar login
+                    guardarLogin($db, $username, 'OK');
+
+                    // Utilizar una sesión para guardar los datos del usuario logueado
+                    $_SESSION['usuario'] = $usuario;
+                    header("Location: ".BASE_URL);
+                }else{
+                    // Guardar login si la contraseña no es correcta
+                    guardarLogin($db, $username, 'WRONG_PASS');
+
+                    // Si algo falla enviar una sesión con el fallo
+                    $errors['login']['password'] = "La contraseña no es correcta.";
+                }
+            }else{
+                // Guardar login sin el usuario no es correcto
+                guardarLogin($db, $username, 'WRONG_USER');
+                $errors['login']['data'] = "Los datos no son correctos.";
+            }  
+        }
     }
 
-    if(empty($password)){
-        $errors['password']['empty'] = "La contraseña no puede ser un valor vacio.";
-        $password = null;
-    }
-
-    if(empty($errors)){
-        $sql = "SELECT * FROM users WHERE username = '$username' LIMIT 1";
-
-        $login = mysqli_query($db, $sql);
-
-        if($login && mysqli_num_rows($login) == 1){
-            $usuario = mysqli_fetch_assoc($login);
-        
-        
-        if(password_verify($password, $usuario['password'])){
-            $_SESSION['userdata'] = $usuario;
-            header("Location: ".APP_URL);
-        } else{
-            $errors['login']['password'] = "La contraseña no es correcta";
-        }
-    } else{
-        $errors['login']['username'] = "El usuario no es correcto";
-        }
-    }   
-}
-
-require 'login.view.php';
-
-?>
+    require_once 'login.view.php';
