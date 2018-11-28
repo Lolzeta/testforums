@@ -62,8 +62,4 @@
         }
     }
 
-<<<<<<< HEAD
     require_once 'login.view.php';
-=======
-    require_once 'login.view.php';
->>>>>>> c3b2b200ddaac88041f3ee0ae83d5741ba2064b5
