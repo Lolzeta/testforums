@@ -82,5 +82,3 @@
     }
 
     require 'register.view.php';
-
-?>

@@ -23,4 +23,8 @@
         </form>
     </div>
 </div>
+<<<<<<< HEAD
 <?php require_once '../includes/footer.php'; ?>
+=======
+<?php require_once '../includes/footer.php'; ?>
+>>>>>>> c3b2b200ddaac88041f3ee0ae83d5741ba2064b5

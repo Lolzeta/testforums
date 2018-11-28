@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row text-center">
                 <div class="col-12 col-lg">
-                    Javier Martinez &copy; 2018
+                    TestForums &copy; 2018
                 </div>
             </div>
         </div>

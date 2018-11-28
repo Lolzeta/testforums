@@ -1,5 +1,9 @@
 #footer {
+<<<<<<< HEAD
     background: linear-gradient(90deg, rgb(40, 1, 44), #5E0668 25%, rgb(173, 3, 192));
+=======
+    background: linear-gradient(90deg, #19051b, #442747 25%, #d000fa);
+>>>>>>> c3b2b200ddaac88041f3ee0ae83d5741ba2064b5
     color: white;
 }
 
