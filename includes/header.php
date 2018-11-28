@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -7,15 +7,16 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="<?=APP_URL?>css/styles.css">
-    <title>Prueba</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="<?=BASE_URL?>css/styles.css">
+    <title>TestForums</title>
   </head>
   <body>
     <!-- Header -->
     <nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="<?=APP_URL?>">
-                <?=APP_NAME?>
+            <a class="navbar-brand" href="<?=BASE_URL?>">
+            <i class="fas fa-vials"></i> TestForums
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -23,21 +24,30 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                <?php if(!isset($_SESSION['userdata'])) :?>
+                <?php if( !isset($_SESSION['usuario']) ): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?=APP_URL?>/login">Login</a>
+                        <a class="nav-link" href="<?=BASE_URL?>login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link link-important" href="<?=APP_URL?>/register">Registro</a>
+                        <a class="nav-link link-important" href="http://localhost/testforums/register">Registro</a>
                     </li>
-                <?php else :?>
+                <?php else: ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+                        Salas
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Mis Salas</a>
+                            <a class="dropdown-item" href="<?=BASE_URL?>create_room">Crear Sala</a>
+                        </div>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?=APP_URL?>/profile"><?=$_SESSION['userdata']['username']?></a>
+                        <a class="nav-link" href="<?=BASE_URL?>profile"><?=$_SESSION['usuario']['username']?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link link-important" href="<?=APP_URL?>/logout">Logout</a>
+                        <a class="nav-link link-important" href="http://localhost/testforums/logout">Logout</a>
                     </li>
-                <?php endif;?>
+                <?php endif; ?>
                 </ul>
             </div>
         </div>

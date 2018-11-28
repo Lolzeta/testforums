@@ -7,12 +7,16 @@ $request = $urlParts[1]."/";
 /** URL principal de la aplicación */
 define('APP_URL', $url.$serverName.$request);
 
-/** Directorio principal de la aplicación en el servidor */
-define('APP_PATH', __DIR__);
+define('BASE_URL', $_SERVER['REQUEST_SCHEME']."://".$_SERVER['HTTP_HOST']."/".'testforums/');
+define('BASE_PATH', __DIR__);
 
-/** Nombre de la aplicación */
-define('APP_NAME', 'TestForums');
+// Conexión a la BD
+define('DB_HOST', "localhost");
+define('DB_USER', "root");
+define('DB_PASS', "");
+define('DB_NAME', "testforumsdb");
 
-/** Iniciar sesión */
-
+// Iniciar Sesión
 session_start();
+
+?>

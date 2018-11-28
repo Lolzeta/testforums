@@ -2,17 +2,16 @@
     require_once '../setup.php';
     require_once '../database/conexion.php';
 
-    if(isset($_SESSION['userdata'])){
-        header("Location: ".APP_URL);
+    if ( !empty($_SESSION) ){
+        header("Location: ".BASE_URL);
+        die();
     }
     
-    if( isset($_POST['registro'])){
+    if( isset($_POST['registro']) ){
         $username = $_POST['username'] ?? null;
         $email = $_POST['email'] ?? null;
-        $password = $_POST['password'] ?? null;
-        $passwordconf = $_POST['password-conf'] ?? null;
-
-        //var_dump($_POST);
+        $password = trim($_POST['password']) ?? null;
+        $passwordconf = trim($_POST['password-conf']) ?? null;
 
         // Array de errores
         $errors = [];
@@ -20,58 +19,65 @@
         // Validaciones
         // username:
         if ( empty($username) ){
-            $errors['username']['empty'] = "Debes introducir un nombre.";
+            $errors['username']['empty'] = "Debes introducir un nombre.<br>";
             $username = null;
         }
 
         if ( strlen($username) < 8 ) {
-            $errors['username']['length'] = "El nombre de usuario debe tener al menos 8 caracteres.";
+            $errors['username']['length'] = "El nombre de usuario debe tener al menos 8 caracteres.<br>";
             $username = null;
         }
 
-        if ( !preg_match("/[0-9a-z]+/",$username) ){
-            $errors['username']['format'] = "La contraseña solo admite números y letras minúsculas.";
+        if ( !preg_match("/[0-9a-z]+$/",$username) ){
+            $errors['username']['format'] = "La contraseña solo admite números y letras minúsculas.<br>";
             $username = null;
         }
     
         // email:
         if ( empty($email) ){
-            $errors['email']['empty'] = "Debes introducir un email.";
+            $errors['email']['empty'] = "Debes introducir un email.<br>";
             $email = null;
         }
 
         if( !filter_var($email, FILTER_VALIDATE_EMAIL) ){
-            $errors['email']['format'] = "Debes introducir un email válido.";
+            $errors['email']['format'] = "Debes introducir un email válido.<br>";
             $email = null;
         }
     
         // password:
         if ( empty($password) ){
-            $errors['password']['empty'] = "Debes facilitar una contraseña.";
+            $errors['password']['empty'] = "Debes facilitar una contraseña.<br>";
         }
     
         if ( strlen($password) < 6 ) {
-            $errors['password']['length'] = "La contraseña debe tener al menos 6 caracteres.";
+            $errors['password']['length'] = "La contraseña debe tener al menos 6 caracteres.<br>";
         }
 
         if ( empty($passwordconf) ){
-            $errors['passwordconf']['empty'] = "Debes confirmar la contraseña.";
+            $errors['passwordconf']['empty'] = "Debes confirmar la contraseña.<br>";
         }
 
         if ( $password != $passwordconf ){
-            $errors['passwordconf']['match'] = "Las contraseñas no coinciden.";
+            $errors['passwordconf']['match'] = "Las contraseñas no coinciden.<br>";
         }
     
         if( empty($errors) ){
-            $password_segura = password_hash($password, PASSWORD_BCRYPT);
             // Guardar en la base de datos
-            $query = "INSERT INTO users VALUES(null, '$username', '$email', '$password_segura', NOW(), NOW())";
-            $result = mysqli_query($db,$query);
-            if($result){
-                header("Location: http://localhost/testforums/");
-            } else{
-                die("La cagamos guardando el usuario.");
+            // Cifrar la contraseña
+            $password_segura = password_hash($password, PASSWORD_BCRYPT);
+
+            // Insertar usuario en la base de datos
+            $sql = "INSERT INTO users VALUES(NULL, '$username', '$email', '$password_segura', NOW(), NOW())";
+
+            $guardar = mysqli_query($db, $sql);
+
+            if( $guardar ){
+                header("Location: ".BASE_URL);
+                die();
             }
+
+            echo "Error";
+            die();   
         }
     }
 

@@ -1,5 +1,5 @@
 #footer {
-    background: linear-gradient(90deg, #1c3643, #273b47 25%, #1e5372);
+    background: linear-gradient(90deg, rgb(40, 1, 44), #5E0668 25%, rgb(173, 3, 192));
     color: white;
 }
 
@@ -13,4 +13,8 @@
 
 .link-important {
     color: #97c983 !important;
+}
+
+i {
+    margin: 0 5px;
 }
