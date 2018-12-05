@@ -7,25 +7,15 @@ CREATE TABLE users (
     updated_at  TIMESTAMP NOT NULL default now() on update now()
 )Engine=INNODB;
 
-CREATE TABLE rooms (
+CREATE TABLE lists (
     id          INT AUTO_INCREMENT PRIMARY KEY,
     user_id     INT NOT NULL,
-    name        VARCHAR(255) NOT NULL,
-    categhory   VARCHAR(255) NOT NULL,
-    description VARCHAR (255) NULL
-)Engine=INNODB;
-
-CREATE TABLE threads (
-    id          INT AUTO_INCREMENT PRIMARY KEY,
-    user_id     INT NOT NULL,
-    room_id     INT NOT NULL,
     name        VARCHAR(100) NOT NULL,
     description VARCHAR(255) NULL,
     created_at  TIMESTAMP NOT NULL default now(),
     updated_at  TIMESTAMP NOT NULL default now() on update now(),
 
-    CONSTRAINT fk_thread_user FOREIGN KEY(user_id) REFERENCES users(id),
-    CONSTRAINT fk_thread_room FOREIGN KEY(room_id) REFERENCES rooms(id)
+    CONSTRAINT fk_list_user FOREIGN KEY(user_id) REFERENCES users(id)
 )Engine=INNODB;
 
 CREATE TABLE logins (
@@ -37,14 +27,12 @@ CREATE TABLE logins (
     created_at  TIMESTAMP NOT NULL default now()
 );
 
-CREATE TABLE messages (
+CREATE TABLE items (
     id			int PRIMARY KEY AUTO_INCREMENT,
-    user_id     int NOT NULL,
-    thread_id 	int NOT null,
+    list_id 	int NOT null,
     description	varchar(255) not null,
     created_at	TIMESTAMP NOT NULL default now(),
     updated_at	TIMESTAMP NOT NULL default now() on update now(),
     
-    CONSTRAINT fk_thread_message FOREIGN KEY(thread_id) REFERENCES threads(id),
-    CONSTRAINT fk_message_user FOREIGN KEY(user_id) REFERENCES users(id) 
+    CONSTRAINT fk_list_item FOREIGN KEY(list_id) REFERENCES lists(id) ON DELETE CASCADE
 )Engine=INNODB;

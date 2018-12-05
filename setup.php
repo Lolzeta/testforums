@@ -11,5 +11,3 @@ define('DB_NAME', "testforumsdb");
 
 // Iniciar Sesión
 session_start();
-
-?>
