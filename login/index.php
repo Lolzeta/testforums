@@ -1,6 +1,7 @@
 <?php
     require_once '../setup.php';
     require_once '../database/conexion.php';
+    require_once '../database/helpers.php';
 
     if ( !empty($_SESSION) ){
         header("Location: ".BASE_URL);
@@ -45,7 +46,7 @@
 
                     // Utilizar una sesión para guardar los datos del usuario logueado
                     $_SESSION['usuario'] = $usuario;
-                    header("Location: ".BASE_URL.'my_lists');
+                    header("Location: ".BASE_URL.'my_rooms');
                 }else{
                     // Guardar login si la contraseña no es correcta
                     guardarLogin($db, $username, 'WRONG_PASS');
